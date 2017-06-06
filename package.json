@@ -7,7 +7,7 @@
   "license": "Unlicense",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/danielricardomarin/treevia-core"
   },
   "dependencies": {
     "dateformat": "^1.0.12",
