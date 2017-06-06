@@ -1,9 +1,9 @@
 {
-  "name": "SearchService",
+  "name": "TreeviaCore",
   "version": "0.0.17",
-  "description": "Search service",
+  "description": "Treevia core service",
   "main": "app.js",
-  "author": "Sheeper Inc.",
+  "author": "Daniel Marin.",
   "license": "Unlicense",
   "repository": {
     "type": "git",

@@ -13,13 +13,18 @@ Log4js.addAppender(Log4js.appenders.file('application.log'), 'App');
 var Logger = Log4js.getLogger('App');
 Logger.setLevel('DEBUG');
 
-var SearchTagService = require('./lib/service/search-tag.service');
-var ProbeService = require('./lib/service/probe.service');
+var FarmService = require('./lib/farm.service');
 
 var App = new Express();
 
 App.get('/', function (req, res) {
     res.send('Treevia Core Service is up!');
+});
+
+App.get('/farms', function (req, res) {
+    FarmService.getAll(function (farms) {
+    	res.send(farms);
+    });
 });
 
 App.listen(config.port, function () {
