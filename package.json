@@ -1,0 +1,32 @@
+{
+  "name": "SearchService",
+  "version": "0.0.17",
+  "description": "Search service",
+  "main": "app.js",
+  "author": "Sheeper Inc.",
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "dateformat": "^1.0.12",
+    "express": "~4.13.4",
+    "log4js": "^0.6.31",
+    "request": "^2.69.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "jshint": "latest",
+    "jshint-stylish": "latest"
+  },
+  "scripts": {
+    "lint": "jshint --reporter=node_modules/jshint-stylish **.js",
+    "preserve:dev": "npm run lint; NODE_ENV=dev node log.env.js",
+    "serve:dev": "node app.js",
+    "preserve:qa": "npm run lint; NODE_ENV=staging node log.env.js",
+    "serve:qa": "NODE_ENV=staging node app.js",
+    "preserve:prod": "npm run lint; NODE_ENV=production node log.env.js",
+    "serve:prod": "NODE_ENV=production node app.js"
+  }
+}
