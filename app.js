@@ -15,12 +15,37 @@ var Logger = Log4js.getLogger('App');
 Logger.setLevel('DEBUG');
 
 var FarmService = require('./lib/farm.service');
-
+var UserService = require('./lib/user.service');
 
 var App = new Express();
 
 App.use(BodyParser.urlencoded({ extended: true }));
 App.use(BodyParser.json());
+
+App.post('/login', function (req, res) {
+    if(!req.body.username){
+        res.status(400).send('Username required');
+    }
+
+    if(!req.body.password){
+        res.status(400).send('Password required');
+    }
+
+    UserService.checkUserExistence(req.body.username, function (userExists, userId) {
+      if(userExists){
+          UserService.verifyPassword(userId, req.body.password, function (isMatch) {
+            if(isMatch){
+              //LOGGED IN
+              res.status(201).send('Hello buddy');
+            }else{
+              res.status(400).send('Wrong password');    
+            }
+          });
+      }else{
+          res.status(400).send('User does not exist');       
+      }
+    });
+});
 
 App.get('/', function (req, res) {
     res.send('Treevia Core Service is up!');
