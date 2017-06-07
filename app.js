@@ -3,10 +3,13 @@
 var Express = require('express');
 var Log4js = require('log4js');
 var BodyParser = require('body-parser');
+var ExpressJWT = require('express-jwt');
+var JWT = require('jsonwebtoken');
 
 var fs = require('fs');
 var configObject = JSON.parse(fs.readFileSync(__dirname + '/config/config.json', 'utf8'));
 var config = configObject[process.env.NODE_ENV || 'dev'];
+var secret = JSON.parse(fs.readFileSync(__dirname + '/config/secret.json', 'utf8'));
 
 Log4js.loadAppender('file');
 Log4js.addAppender(Log4js.appenders.file('application.log'), 'App');
@@ -21,6 +24,8 @@ var App = new Express();
 
 App.use(BodyParser.urlencoded({ extended: true }));
 App.use(BodyParser.json());
+console.log(secret);
+App.use(new ExpressJWT(secret).unless({ path: ['/login','/farms'] }));
 
 App.post('/login', function (req, res) {
     if(!req.body.username){
@@ -36,7 +41,8 @@ App.post('/login', function (req, res) {
           UserService.verifyPassword(userId, req.body.password, function (isMatch) {
             if(isMatch){
               //LOGGED IN
-              res.status(201).send('Hello buddy');
+              var authToken = JWT.sign({ username: req.body.username}, secret.secret);
+              res.status(201).send(authToken);
             }else{
               res.status(400).send('Wrong password');    
             }
